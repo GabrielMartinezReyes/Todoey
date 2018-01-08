@@ -5,18 +5,22 @@
 //  Created by Gabriel Martinez on 2018-01-03.
 //  Copyright © 2018 Gabriel Martinez. All rights reserved.
 //
-
+//fler ändringar sen tididare
 import UIKit
 
 class TodoListViewController: UITableViewController {
 
     var itemArray = ["Find Mike", "Buy Eggos", "DestoryDomogorgon"]
     
-    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        if let items = defaults.array(forKey: "TodoListArray") as? [String]{
+            itemArray = items
+        }
+    
     }
 
     //MARK - Tableview Datasource methods
@@ -64,6 +68,9 @@ class TodoListViewController: UITableViewController {
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
             self.itemArray.append(textFiled.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
+            
             self.tableView.reloadData()
         }
         
